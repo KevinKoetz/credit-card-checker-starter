@@ -41,7 +41,7 @@ function validateCred(cardNumber) {
     }
     numberSum = numberSum + element;
   }
-  return numberSum % 10 ? false : true;
+  return (numberSum % 10 === 0);
 }
 
 //Returns all invalid Cards as a array of nested cardnumber arrays
