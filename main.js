@@ -75,5 +75,4 @@ function idInvalidCardCompanies(invalidCards){
   return companies;
 }
 
-console.log(findInvalidCards(batch));
-console.log(idInvalidCardCompanies(findInvalidCards(batch)));
+
