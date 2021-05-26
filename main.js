@@ -45,11 +45,9 @@ function validateCred(cardNumber) {
 }
 
 //Returns all invalid Cards as a array of nested cardnumber arrays
-
 function  findInvalidCards(batchOfCards) {
   return batchOfCards.filter(element => !validateCred(element));
 }
-
 
 //Returns array of companies who issued invalid card numbers. Does not contain duplicates. If the company identifier is unknown it logs "Company not found" to console.
 function idInvalidCardCompanies(invalidCards){
@@ -75,4 +73,40 @@ function idInvalidCardCompanies(invalidCards){
   return companies;
 }
 
+const getArrayFromString = (string) => {
+    const arr = [];
+    for(const char of string){
+      arr.push(parseInt(char));
+    }
+    return arr;
+}
 
+//The function returns a valid number built from the original cardNumber
+const makeValid = (cardNumber) => {
+    //make a copy of the array so we dont change the original
+    let validCardNumber = cardNumber.slice();
+    let numberSum = 0;
+    //Iterate through each element beginning from the right (last element)
+    for(let i = cardNumber.length - 1; i >= 0; i--){
+      let element = cardNumber[i];
+      //Check if i am at a even or odd digit
+      if(((cardNumber.length - 1) - i) % 2 === 1){ 
+        element = 2 * element;
+        if(element > 9){ 
+            element = element - 9;
+        }
+      }
+      numberSum = numberSum + element;
+    }
+    //If numberSum % 10 === 0 the provided card Number was already valid to begin with
+    if(numberSum % 10 === 0) return validCardNumber;
+
+    //If the last digit of the Card Number is bigger than or equal to the remainder of the modulo 10, i can substract the remainder to make the card Number valid.
+    //Else i need to add 10 - remainder to get to the next multiple of 10
+    if(validCardNumber[validCardNumber.length - 1] >= numberSum % 10) {
+        validCardNumber[validCardNumber.length - 1] -= numberSum % 10;
+    } else {
+        validCardNumber[validCardNumber.length - 1] += (10-(numberSum % 10));
+    }
+    return validCardNumber;
+}
